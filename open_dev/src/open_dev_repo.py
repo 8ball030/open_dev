@@ -45,7 +45,8 @@ class OpenDevRepo:
         if self.git_repo.is_dirty():
             print("Dirty working tree!")
             return RepoStatus.LOCAL_DIRTY
-        commits_diff = self.git_repo.git.rev_list('--left-right', '--count', f'{branch}...{branch}@{{u}}')
+
+        commits_diff = self.git_rcommits_diff = self.git_repo.git.rev_list('--left-right', '--count', f'{self.git_repo.branch}@{{u}}')
         num_ahead, num_behind = commits_diff.split('\t')
         print(f'num_commits_ahead: {num_ahead}')
         print(f'num_commits_behind: {num_behind}') 
