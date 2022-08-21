@@ -1,17 +1,22 @@
 """Main module."""
 
+import enum
 from dataclasses import dataclass
 from pathlib import Path
 
-import enum
 from git import Repo
 
+
 class RepoStatus(enum.Enum):
+    """Represets repository statuses."""
+
     LOCAL_DIRTY = enum.auto()
     LOCAL_AHEAD = enum.auto()
     REMOTE_AHEAD = enum.auto()
     SYNCED = enum.auto()
     WARNING = enum.auto()
+    UNKNOWN = enum.auto()
+
 
 @dataclass
 class OpenDevRepo:
@@ -41,13 +46,12 @@ class OpenDevRepo:
         return self.git_repo.active_branch.name
 
     @property
-    def status(self) -> str:
+    def status(self) -> RepoStatus:
         """Returns the current head."""
-#       if self.git_repo.is_dirty():
-#           print("Dirty working tree!")
-#           return RepoStatus.LOCAL_DIRTY
         num_ahead, num_behind = self.difference_to_target
-        if not num_ahead and not num_behind:
+        if self.git_repo.is_dirty():
+            return RepoStatus.LOCAL_DIRTY
+        elif not num_ahead and not num_behind:
             return RepoStatus.SYNCED
         elif num_ahead and not num_behind:
             return RepoStatus.LOCAL_AHEAD
@@ -55,26 +59,18 @@ class OpenDevRepo:
             return RepoStatus.REMOTE_AHEAD
         elif num_ahead and num_behind:
             return RepoStatus.WARNING
-        raise
-        
-
-        
+        return RepoStatus.UNKNOWN
 
     @property
-    def difference_to_target(self, target_branch=None):
-        if target_branch is None:
-            target_branch = self.branch
+    def difference_to_target(self):
+        """Checks the difference between current branch and remote."""
+        target_branch = self.branch
         commits_diff = self.git_repo.git.rev_list('--left-right', '--count', f'{target_branch}@{{u}}')
         num_ahead, num_behind = commits_diff.split('\t')
-        print(f'num_commits_ahead: {num_ahead}')
-        print(f'num_commits_behind: {num_behind}') 
         return int(num_ahead), int(num_behind)
 
     def __str__(self) -> str:
         return f"OpenDevRepo({self.remote_path})"
 
-
     def __repr__(self) -> str:
         return str(self)
-
-        

@@ -12,6 +12,7 @@ def test_gets_repo():
     repo = OpenDevRepo()
     assert isinstance(repo.current_head, str)
 
+
 def test_status():
     """Repo object retrieves the current head."""
     repo = OpenDevRepo()
