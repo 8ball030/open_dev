@@ -95,7 +95,7 @@ def install():
 
 @click.group()
 def main():
-    """OhDev open_dev tooling to enable devs to buidl quick."""
+    """ODev open_dev tooling to enable devs to buidl quick."""
 
 
 deps.add_command(install)
