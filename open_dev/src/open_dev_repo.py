@@ -39,7 +39,7 @@ class OpenDevRepo:
     @property
     def current_head(self) -> str:
         """Returns the current head."""
-        return self.git_repo.head.object.hexsha
+        return "testing..."
 
     @property
     def branch(self) -> str:
