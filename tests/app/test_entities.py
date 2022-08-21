@@ -1,23 +1,27 @@
 """Test entities."""
-from open_dev.src.open_dev_repo import OpenDevRepo, RepoStatus
+from unittest.mock import patch
 import pytest
+from open_dev.src.open_dev_repo import OpenDevRepo, RepoStatus
 
 
-@pytest.mark.skip()
-def test_inits_repo():
+@pytest.fixture(name='repo')
+def repo_fixure():
+    """Create a openDev repo."""
+    with patch('open_dev.src.open_dev_repo.OpenDevRepo.branch', "main"):
+        yield OpenDevRepo()
+
+# @pytest.mark.skip()
+def test_inits_repo(repo):
     """Creates the repo."""
-    OpenDevRepo()
+    print(repo)
 
 
-@pytest.mark.skip()
-def test_gets_repo():
+def test_gets_repo(repo):
     """Repo object retrieves the current head."""
-    repo = OpenDevRepo()
     assert isinstance(repo.current_head, str)
 
 
 @pytest.mark.skip()
-def test_status():
-    """Repo object retrieves the current head."""
-    repo = OpenDevRepo()
+def test_status(repo):
+    """Repo object retrieves the current status."""
     assert isinstance(repo.status, RepoStatus)

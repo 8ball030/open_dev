@@ -1,5 +1,4 @@
 """Console script for open_dev."""
-import subprocess
 import textwrap
 import time
 
@@ -10,17 +9,6 @@ from open_dev.constants import HEADER
 from open_dev.src.open_dev_repo import OpenDevRepo
 
 click.rich_click.USE_MARKDOWN = True
-
-
-def execute(cmd):
-    """Executes a command."""
-    popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
-    for stdout_line in iter(popen.stdout.readline, ""):
-        yield stdout_line
-    popen.stdout.close()
-    return_code = popen.wait()
-    if return_code:
-        raise subprocess.CalledProcessError(return_code, cmd)
 
 
 def fstr(string):
@@ -99,17 +87,12 @@ def install():
     """Synchronise dependencies."""
     click.echo(
         """
-    Installing dependencies with deps with
+    Install dependencies with deps with
     ```bash
     pip install -e . --user
     ````
     """
     )
-    cmds = ["pipenv run pip install poetry", "pipenv run poetry install", "pipenv run pip install ."]
-    for i in cmds:
-        cmd = fstr(i)
-        for path in execute(cmd):
-            print(path, end="")
 
 
 click.echo(textwrap.dedent(HEADER))
