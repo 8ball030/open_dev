@@ -1,5 +1,4 @@
 """Console script for open_dev."""
-import subprocess
 import textwrap
 import time
 
