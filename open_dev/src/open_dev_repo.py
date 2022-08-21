@@ -39,13 +39,13 @@ class OpenDevRepo:
     @property
     def current_head(self) -> str:
         """Returns the current head."""
-        return "testing..."
+        return self.git_repo.head.object.hexsha
 
     @property
     def branch(self) -> str:
         """Returns the current head."""
         try:
-            return "test2"
+            return self.git_repo.active_branch.name
         except TypeError:
             self.detached = True
             return self.current_head
