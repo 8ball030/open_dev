@@ -45,7 +45,7 @@ class OpenDevRepo:
     def branch(self) -> str:
         """Returns the current head."""
         try:
-            return self.git_repo.active_branch.name
+            return "test2"
         except TypeError:
             self.detached = True
             return self.current_head
