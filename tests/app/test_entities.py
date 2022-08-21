@@ -14,7 +14,6 @@ def test_inits_repo(open_dev_repo):
     """Creates the repo."""
 
 
-@pytest.mark.skip()
 def test_gets_repo(open_dev_repo):
     """Repo object retrieves the current head."""
     assert isinstance(open_dev_repo.current_head, str)
