@@ -8,8 +8,7 @@ format:
 	black $(sources) tests
 
 lint:
-	flake8 $(sources) tests
-	mypy $(sources) tests
+	pylama $(sources) tests
 
 unittest:
 	pytest
@@ -25,3 +24,5 @@ clean:
 	rm -rf *.egg-info
 	rm -rf .tox dist site
 	rm -rf coverage.xml .coverage
+	rm -rf .history
+	find . -type d -name __pycache__ -exec rm -r {} \+
