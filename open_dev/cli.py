@@ -8,14 +8,8 @@ from rich.progress import track
 click.rich_click.USE_MARKDOWN = True
 
 
-# welcome_msg = f"{OpenDevRepo.name} commit: {OpenDevRepo.get()}"
-# click.echo(OpenDevRepo.name)
-# click.echo("=" * len(OpenDevRepo.name))
-# click.echo(OpenDevRepo.description)
-# click.echo("*" * len(OpenDevRepo.description))
-
-
 def execute(cmd):
+    """Executes a command."""
     popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
     for stdout_line in iter(popen.stdout.readline, ""):
         yield stdout_line
@@ -25,7 +19,8 @@ def execute(cmd):
         raise subprocess.CalledProcessError(return_code, cmd)
 
 
-def format(string):
+def fstr(string):
+    """Formatr strings from the interface."""
     return string.split(" ")
 
 
@@ -62,7 +57,7 @@ def test():
 def run_all():
     """Test all."""
     click.echo('Starting Tests.')
-    for i in track(range(20), description="Processing..."):
+    for _ in track(range(20), description="Processing..."):
         time.sleep(0.05)
     click.echo(
         'Success!',
@@ -88,7 +83,7 @@ def install():
     )
     cmds = ["pipenv run pip install poetry", "pipenv run poetry install", "pipenv run pip install ."]
     for i in cmds:
-        cmd = format(i)
+        cmd = fstr(i)
         for path in execute(cmd):
             print(path, end="")
 

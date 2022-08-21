@@ -1,4 +1,4 @@
-"""Github Class"""
+"""Main module."""
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -17,10 +17,16 @@ class OpenDevRepo:
     description: str = "A collection of tooling to enable open source development."
     local_path: Path = Path(".")
 
-    @classmethod
-    def get(cls):
-        assert cls.local_path.exists()
-        return Repo(cls.local_path)
+    @property
+    def git_repo(self) -> Repo:
+        """Retrieve the repository."""
+        assert self.local_path.exists()
+        return Repo(self.local_path)
+
+    @property
+    def current_head(self) -> str:
+        """Returns the current head."""
+        return self.git_repo.head.object.hexsha
 
     def __str__(self) -> str:
         return f"OpenDevRepo({self.remote_path})"
