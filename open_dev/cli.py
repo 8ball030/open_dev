@@ -1,9 +1,13 @@
 """Console script for open_dev."""
 import subprocess
+import textwrap
 import time
 
 import rich_click as click
 from rich.progress import track
+
+from open_dev.constants import HEADER
+from open_dev.src.open_dev_repo import OpenDevRepo
 
 click.rich_click.USE_MARKDOWN = True
 
@@ -33,6 +37,26 @@ def repo():
 def create():
     """Creates a new repository."""
     click.echo('Hello there')
+
+
+@click.command()
+def info():
+    """Retrieves infromation about the current repo."""
+
+    current_repo = OpenDevRepo()
+    repo_info = textwrap.dedent(
+        f"""
+    Currently managing:
+
+        name: \t\t{current_repo.name}
+        hash: \t\t{current_repo.current_head[:8]}
+        branch: \t\t{current_repo.branch}
+        status: \t\t{current_repo.status}
+
+
+    """
+    )
+    click.echo(repo_info)
 
 
 @click.command()
@@ -88,13 +112,17 @@ def install():
             print(path, end="")
 
 
+click.echo(textwrap.dedent(HEADER))
+
+
 @click.group()
 def main():
-    """ODev open_dev tooling to enable devs to buidl quick."""
+    """Oh dev tooling to speed up development."""
 
 
 deps.add_command(install)
 repo.add_command(create)
+repo.add_command(info)
 test.add_command(run_all)
 
 for group in [repo, deps, test]:
