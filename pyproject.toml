@@ -73,7 +73,7 @@ doc = [
     ]
 
 [tool.poetry.scripts]
-open_dev = 'open_dev.cli:main'
+odev = 'open_dev.cli:main'
 
 [tool.black]
 line-length = 120

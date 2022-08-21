@@ -5,7 +5,11 @@ import time
 import rich_click as click
 from rich.progress import track
 
+from open_dev.constants import DEFAULT_CONFIG
+from open_dev.src.open_dev_repo import OpenDevRepo
+
 click.rich_click.USE_MARKDOWN = True
+
 
 
 def execute(cmd):
@@ -87,10 +91,34 @@ def install():
         for path in execute(cmd):
             print(path, end="")
 
+import textwrap
 
 @click.group()
 def main():
     """ODev open_dev tooling to enable devs to buidl quick."""
+    HEADER = textwrap.dedent("""
+        [....           [.....                         
+      [..    [..        [..   [..                      
+    [..        [..      [..    [..   [..    [..     [..
+    [..        [..[.....[..    [.. [.   [..  [..   [.. 
+    [..        [..      [..    [..[..... [..  [.. [..  
+      [..     [..       [..   [.. [.           [.[..   
+        [....           [.....      [....       [..    
+
+    """)
+    current_repo = OpenDevRepo()
+
+    TEMPLATE = f"""
+    {"*" * 51}
+
+    Currently managing:
+    
+    name: \t\t{current_repo.name}
+    hash: \t\t{current_repo.current_head[:8]}
+    branch: \t{current_repo.branch}
+    status: \t{current_repo.status}
+    """
+    click.echo(textwrap.dedent(TEMPLATE))
 
 
 deps.add_command(install)
