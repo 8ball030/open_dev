@@ -1,4 +1,4 @@
-from open_dev.src.entities.repos import OpenDevRepo
+from open_dev.open_dev.src.entities.repos import OpenDevRepo
 
 
 def test_creates_repo():

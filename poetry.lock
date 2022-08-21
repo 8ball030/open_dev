@@ -1061,7 +1061,7 @@ test = ["pytest", "black", "isort", "mypy", "flake8", "flake8-docstrings", "pyte
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.7,<4.0"
-content-hash = "4cd9f54e6557436fc9f4eb20554f31d4944a0b3ad82e666876c28dbac4bb8ed1"
+content-hash = "1f265bbd587689ed24cd621fe1b0b0c68206c8c60e1ee2090991355983f20728"
 
 [metadata.files]
 atomicwrites = [

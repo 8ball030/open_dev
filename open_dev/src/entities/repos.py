@@ -9,6 +9,7 @@ from git import Repo
 @dataclass
 class OpenDevRepo:
     """Class for Repos."""
+
     name: str = "open-dev"
     project_slug: str = "open_dev"
     cli_name = "o-dev"
@@ -16,12 +17,10 @@ class OpenDevRepo:
     description: str = "A collection of tooling to enable open source development."
     local_path: Path = Path(".")
 
-    def get(self):
-        assert self.local_path.exists()
-        return Repo(self.local_path)
+    @classmethod
+    def get(cls):
+        assert cls.local_path.exists()
+        return Repo(cls.local_path)
 
     def __str__(self) -> str:
-        f"OpenDevRepo({self.remote_path})"
-
-
-
+        return f"OpenDevRepo({self.remote_path})"
