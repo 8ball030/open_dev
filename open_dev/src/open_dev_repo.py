@@ -28,6 +28,7 @@ class OpenDevRepo:
     remote_path: str = "git@github.com:8ball030/open_dev.git"
     description: str = "A collection of tooling to enable open source development."
     local_path: Path = Path(".")
+    detached: bool = False
 
     @property
     def git_repo(self) -> Repo:
@@ -38,12 +39,16 @@ class OpenDevRepo:
     @property
     def current_head(self) -> str:
         """Returns the current head."""
-        return self.git_repo.head.object.hexsha
+        return "testing..."
 
     @property
     def branch(self) -> str:
         """Returns the current head."""
-        return self.git_repo.active_branch.name
+        try:
+            return "test2"
+        except TypeError:
+            self.detached = True
+            return self.current_head
 
     @property
     def status(self) -> RepoStatus:
@@ -65,6 +70,8 @@ class OpenDevRepo:
     def difference_to_target(self):
         """Checks the difference between current branch and remote."""
         target_branch = self.branch
+        if self.detached:
+            target_branch = "main"
         commits_diff = self.git_repo.git.rev_list('--left-right', '--count', f'{target_branch}@{{u}}')
         num_ahead, num_behind = commits_diff.split('\t')
         return int(num_ahead), int(num_behind)
