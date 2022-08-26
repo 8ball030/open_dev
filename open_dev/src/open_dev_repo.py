@@ -1,10 +1,13 @@
 """Main module."""
 
 import enum
+import logging
 from dataclasses import dataclass
 from pathlib import Path
 
 from git import Repo
+
+logger = logging.getLogger(__name__)
 
 
 class RepoStatus(enum.Enum):
@@ -81,3 +84,15 @@ class OpenDevRepo:
 
     def __repr__(self) -> str:
         return str(self)
+
+    def sync(self):
+        """Synchronise the state of the repo."""
+        if self.status is RepoStatus.LOCAL_DIRTY:
+            logger.info("Hook for local dirty not implemented.")
+            raise NotImplementedError
+        elif self.status is RepoStatus.REMOTE_AHEAD:
+            logger.info("Pulling remote.")
+            origin = self.git_repo.remotes.origin
+            origin.pull()
+        else:
+            raise NotImplementedError(f"Not implemeented {self.status}")
