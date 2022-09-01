@@ -28,6 +28,12 @@ def create():
 
 
 @click.command()
+def sync():
+    """Creates a new repository."""
+    click.echo('Synchronise state so remote and local are aligned')
+
+
+@click.command()
 def info():
     """Retrieves infromation about the current repo."""
 
@@ -105,6 +111,7 @@ def main():
 
 deps.add_command(install)
 repo.add_command(create)
+repo.add_command(sync)
 repo.add_command(info)
 test.add_command(run_all)
 
