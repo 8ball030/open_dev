@@ -1,6 +1,8 @@
 """Test entities."""
 from unittest.mock import patch
+
 import pytest
+
 from open_dev.src.open_dev_repo import OpenDevRepo, RepoStatus
 
 
@@ -9,6 +11,7 @@ def repo_fixure():
     """Create a openDev repo."""
     with patch('open_dev.src.open_dev_repo.OpenDevRepo.branch', "main"):
         yield OpenDevRepo()
+
 
 # @pytest.mark.skip()
 def test_inits_repo(repo):
