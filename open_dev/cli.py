@@ -18,7 +18,7 @@ def main():
     """Oh dev tooling to speed up development."""
 
 
+for group in [repo, deps, test]:
+    main.add_command(group)
 if __name__ == '__main__':
-    for group in [repo, deps, test]:
-        main.add_command(group)
     main()
