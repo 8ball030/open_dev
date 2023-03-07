@@ -110,7 +110,7 @@ def pull(target_branch, title, description, dry_run):
     logger.info("Detecting changes from  %s to %s", target_branch, current_repo.branch)
 
     if changes is not None:
-        logger.info("Changes detected:")
+        logger.info("Changes detected: %s", changes)
         logger.debug(changes)
 
     if description is None:
