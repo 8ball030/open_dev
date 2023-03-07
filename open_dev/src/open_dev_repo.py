@@ -97,7 +97,7 @@ class OpenDevRepo:
         owner = url.split(":")[1].split("/")[:-1][0]
         repo = url.split(":")[1].split("/")[-1:][0].split(".git")[0]
 
-        command = f"gh pr create -B {target_branch} -R {owner}/{repo} --fill -t {title} -b {description}"
+        command = f"gh pr create -B {target_branch} -R {owner}/{repo} --fill -t '{title}' -b '{description}'"
         res = self.git_repo.git.execute(command, shell=True)
         return res
 

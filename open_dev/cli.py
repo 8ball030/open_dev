@@ -8,9 +8,6 @@ from rich.progress import track
 from open_dev.constants import HEADER
 from open_dev.src.open_dev_repo import OpenDevRepo
 
-click.rich_click.USE_MARKDOWN = True
-
-
 import openai
 import re
 import os
@@ -40,14 +37,14 @@ def summarize_changes(changes, title=False):
     max_token = 200
 
     if title:
-        prompt = "The following is a single line title for the pr;"
-        text = f"{changes}\n{prompt}"
+        prompt = "Title: {TITLE}"
+        text = f"{changes}\nWhat could be the title?"
         max_token = 25
 
     # Use OpenAI's GPT-3 language model to summarize the text
     response = openai.Completion.create(
         engine="text-davinci-002",
-        prompt=text[:4096],
+        prompt=text[-4096:],
         max_tokens=max_token,
         n=1,
         stop="****",
