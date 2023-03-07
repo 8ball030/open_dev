@@ -47,7 +47,7 @@ def summarize_changes(changes, title=False):
     # Use OpenAI's GPT-3 language model to summarize the text
     response = openai.Completion.create(
         engine="text-davinci-002",
-        prompt=text,
+        prompt=text[:4096],
         max_tokens=max_token,
         n=1,
         stop="****",
