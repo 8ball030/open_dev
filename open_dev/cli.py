@@ -13,6 +13,29 @@ import re
 import os
 
 
+from rich_click.cli import patch
+
+import logging
+from rich.logging import RichHandler
+
+def get_logger():
+    """Get the logger."""
+    logger = logging.getLogger(__name__)
+    formatter = logging.Formatter("%(message)s")
+
+    handler = RichHandler(
+        markup=False,
+        rich_tracebacks=True,
+        locals_max_string=None,
+        locals_max_length=None,
+    )
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    return logger
+
+
+logger = get_logger()
+
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 
@@ -37,7 +60,6 @@ def summarize_changes(changes, title=False):
     max_token = 200
 
     if title:
-        prompt = "Title: {TITLE}"
         text = f"{changes}\nWhat could be the title?"
         max_token = 25
 
@@ -98,27 +120,30 @@ def pull(target_branch, title, description, dry_run):
     """Creates a pull request based on a summary of changes from chatgpt."""
     current_repo = OpenDevRepo()
     changes = current_repo.changes_from_target(target_branch)
-    click.echo(f"Detecting changes from {target_branch} to {current_repo.branch}")
+    logger.info(f"Detecting changes from {target_branch} to {current_repo.branch}")
 
-    click.echo("Summarising changes...")
+    if changes is not None:
+        logger.info("Changes detected:")
+        logger.debug(changes)
+
     if description is None:
         # we try to get more summaries until the user is happy and then we create the PR
         accepted = False
         while not accepted:
             description = summarize_changes(changes)
-            click.echo(description)
+            logger.info("Generated: " + description)
             accepted = click.confirm("Is this summary acceptable?")
     if title is None:
         accepted = False
         while not accepted:
             title = summarize_changes(description, title=True)
-            click.echo(title)
+            logger.info("Generated: " + title)
             accepted = click.confirm("Is this title acceptable?")
     if not dry_run:
         pr = current_repo.create_pr(title, description, target_branch)
-        click.echo(f"Created PR: {pr}")
+        logger.info("Created PR: " + pr)
     else:
-        click.echo("Dry run, not creating PR.")
+        logger.info("Dry run, no PR created.")
 
     # we check wit
 
