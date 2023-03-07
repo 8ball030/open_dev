@@ -1,26 +1,19 @@
 """Console script for open_dev."""
+import logging
+import os
+import re
 import textwrap
-import time
-
-import rich_click as click
-from rich.progress import track
-
-from open_dev.constants import HEADER
-from open_dev.src.open_dev_repo import OpenDevRepo
 
 import openai
-import re
-import os
-
-
-from rich_click.cli import patch
-
-import logging
+import rich_click as click
 from rich.logging import RichHandler
+
+from open_dev.src.open_dev_repo import OpenDevRepo
+
 
 def get_logger():
     """Get the logger."""
-    logger = logging.getLogger(__name__)
+    new_logger = logging.getLogger(__name__)
     formatter = logging.Formatter("%(message)s")
 
     handler = RichHandler(
@@ -30,8 +23,8 @@ def get_logger():
         locals_max_length=None,
     )
     handler.setFormatter(formatter)
-    logger.addHandler(handler)
-    return logger
+    new_logger.addHandler(handler)
+    return new_logger
 
 
 logger = get_logger()
@@ -41,13 +34,9 @@ openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 
 def summarize_changes(changes, title=False):
-    # Extract the added and deleted lines from the changes
+    """Summarise the changes"""
     added_lines = re.findall(r'\n\+(.*?)\n', changes)
     deleted_lines = re.findall(r'\n\-(.*?)\n', changes)
-    #
-    # # Join the added and deleted lines into a single string
-    # text = '\n'.join(added_lines + deleted_lines)
-
     added_lines = "\n".join(added_lines)
     deleted_lines = "\n".join(deleted_lines)
 
@@ -73,10 +62,7 @@ def summarize_changes(changes, title=False):
         stop="****",
         temperature=0.5,
     )
-
-    # Get the summary from the response
     summary = response.choices[0].text.strip()
-
     return summary
 
 
@@ -121,7 +107,7 @@ def pull(target_branch, title, description, dry_run):
     """Creates a pull request based on a summary of changes from chatgpt."""
     current_repo = OpenDevRepo()
     changes = current_repo.changes_from_target(target_branch)
-    logger.info(f"Detecting changes from {target_branch} to {current_repo.branch}")
+    logger.info("Detecting changes from  %s to %s", target_branch, current_repo.branch)
 
     if changes is not None:
         logger.info("Changes detected:")
@@ -132,21 +118,19 @@ def pull(target_branch, title, description, dry_run):
         accepted = False
         while not accepted:
             description = summarize_changes(changes)
-            logger.info("Generated: " + description)
+            logger.info("Generated:\n%s", description)
             accepted = click.confirm("Is this summary acceptable?")
     if title is None:
         accepted = False
         while not accepted:
             title = summarize_changes(description, title=True)
-            logger.info("Generated: " + title)
+            logger.info("Generated:\n%s", title)
             accepted = click.confirm("Is this title acceptable?")
     if not dry_run:
-        pr = current_repo.create_pr(title, description, target_branch)
-        logger.info("Created PR: " + pr)
+        pull_request = current_repo.create_pr(title, description, target_branch)
+        logger.info("Created PR: %s", pull_request)
     else:
         logger.info("Dry run, no PR created.")
-
-    # we check wit
 
 
 @click.group()
