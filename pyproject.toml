@@ -47,6 +47,7 @@ yamllint = "^1.27.1"
 GitPython = "^3.1.27"
 pylama = {extras = ["all"], version = "^8.4.1"}
 rich-click = "^1.5.2"
+openai = "^0.27.0"
 
 [tool.poetry.dev-dependencies]
 

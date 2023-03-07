@@ -83,5 +83,23 @@ class OpenDevRepo:
     def __str__(self) -> str:
         return f"OpenDevRepo({self.remote_path})"
 
+    def create_pr(self, title, description, target_branch):
+        """Creates a PR on the remote"""
+        remote_repo = self.git_repo.remote()
+        branch = self.git_repo.active_branch
+
+        # Create the pull request using the `git` command-line interface
+        # git push the branch to the remote repository
+        # git push --set-upstream origin (git rev-parse --abbrev-ref HEAD)
+
+        self.git_repo.git.push(remote_repo.name, branch.name)
+        url = remote_repo.url
+        owner = url.split(":")[1].split("/")[:-1][0]
+        repo = url.split(":")[1].split("/")[-1:][0].split(".git")[0]
+
+        command = f"gh pr create -B {target_branch} -R {owner}/{repo} --fill -t {title} -b {description}"
+        res = self.git_repo.git.execute(command, shell=True)
+        return res
+
     def __repr__(self) -> str:
         return str(self)

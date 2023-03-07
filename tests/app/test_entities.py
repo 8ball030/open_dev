@@ -10,6 +10,7 @@ def repo_fixure():
     with patch('open_dev.src.open_dev_repo.OpenDevRepo.branch', "main"):
         yield OpenDevRepo()
 
+
 # @pytest.mark.skip()
 def test_inits_repo(repo):
     """Creates the repo."""
