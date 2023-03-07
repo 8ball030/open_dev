@@ -95,7 +95,7 @@ def info():
 )
 @click.option("--dry-run", is_flag=True, default=False, help="Simulate the commit and pr creation.")
 def pull(target, title, description, dry_run):
-    """Creates a pull request based on a summary of changes form chatcpt."""
+    """Creates a pull request based on a summary of changes from chatgpt."""
     current_repo = OpenDevRepo()
     changes = current_repo.changes_from_target(target)
     click.echo(f"Detecting changes from {target} to {current_repo.branch}")
