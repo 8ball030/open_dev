@@ -76,6 +76,10 @@ class OpenDevRepo:
         num_ahead, num_behind = commits_diff.split('\t')
         return int(num_ahead), int(num_behind)
 
+    def changes_from_target(self, target: str = "main") -> str:
+        """Returns the changes from the target branch."""
+        return self.git_repo.git.diff(f"{target}..{self.branch}")
+
     def __str__(self) -> str:
         return f"OpenDevRepo({self.remote_path})"
 
