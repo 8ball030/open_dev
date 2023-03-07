@@ -35,6 +35,7 @@ def get_logger():
 
 
 logger = get_logger()
+logger.setLevel(logging.INFO)
 
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
