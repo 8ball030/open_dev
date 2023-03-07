@@ -1,6 +1,8 @@
 """Test entities."""
 from unittest.mock import patch
+
 import pytest
+
 from open_dev.src.open_dev_repo import OpenDevRepo, RepoStatus
 
 
