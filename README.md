@@ -56,5 +56,10 @@ You can also specify options when running the pull command. For example, to spec
 ```bash
 open-dev repo pull --target-branch develop
 ```
+
+## Example  output
+
+![image](https://user-images.githubusercontent.com/35799987/223505087-5992d2db-362a-45e6-8176-d9da91551c9f.png)
+
 License
 This project is licensed under the MIT License.
