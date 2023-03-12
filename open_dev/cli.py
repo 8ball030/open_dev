@@ -51,7 +51,7 @@ def summarize_changes(changes, is_title=False, is_commit=False):
 
     stop = "****",
     if is_title:
-        text = f"{changes}\nWhat could be the title?"
+        text = f"{changes}\nWhat could be the title?\n\nA:"
         max_token = 25
 
     if is_commit:
@@ -165,9 +165,9 @@ def commit(commit_type, msg):
         accepted = False
         while not accepted:
             description = summarize_changes(f"{changes}\nCommit type: {commit_type}", is_commit=True)
-            logger.info("Generated:\n%s", description)
-            accepted = click.confirm("Is this summary acceptable?")
             message = f"[{commit_type}]  {description}"
+            logger.info("Generated:\n%s", message)
+            accepted = click.confirm("Is this commit msg acceptable?")
 
     logger.info("Committing [%s] changes to %s since %s. Current msg: %s", commit_type, target_branch, since, message)
     current_repo.commit(message)
