@@ -51,7 +51,7 @@ def summarize_changes(changes, is_title=False, is_commit=False):
 
     stop = "****",
     if is_title:
-        text = f"{changes}\nWhat could be the title?\n\nA:"
+        text = f"{changes}\nWhat could be the title for the pull request?\n\nA:"
         max_token = 25
 
     if is_commit:
