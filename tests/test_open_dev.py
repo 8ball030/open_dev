@@ -33,3 +33,12 @@ def test_command_line_interface():
     assert result.exit_code == 0
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
+
+
+def test_commit_group():
+    """Test the commit group."""
+    runner = CliRunner()
+    result = runner.invoke(cli.commit)
+    assert result.exit_code == 0
+    help_result = runner.invoke(cli.commit, ['--help'])
+    assert help_result.exit_code == 0

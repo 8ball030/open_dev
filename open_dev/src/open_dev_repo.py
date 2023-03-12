@@ -80,6 +80,10 @@ class OpenDevRepo:
         """Returns the changes from the target branch."""
         return self.git_repo.git.diff(f"{target}..{self.branch}")
 
+    def changes_since_last_commit(self) -> str:
+        """Returns the changes since the last commit."""
+        return self.git_repo.git.diff()
+
     def __str__(self) -> str:
         return f"OpenDevRepo({self.remote_path})"
 
@@ -103,3 +107,8 @@ class OpenDevRepo:
 
     def __repr__(self) -> str:
         return str(self)
+
+    def commit(self, message: str):
+        """Commits the current changes."""
+        self.git_repo.git.add(A=True)
+        self.git_repo.git.commit(message=f"{message}")
