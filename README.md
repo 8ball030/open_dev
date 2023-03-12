@@ -12,9 +12,13 @@ open_dev is a command-line tool built to assist developers in creating pull requ
 To install open_dev, you must have Python 3.6 or later installed on your system.
 
 Clone this repository: `git clone https://github.com/8ball030/open_dev.git.`
+
 Navigate to the project directory: `cd open_dev`.
+
 Install the required dependencies: `pip install -r requirements.txt`.
-Set up your OPENAI_API_KEY environment variable by following the instructions here.
+
+Set up your `OPENAI_API_KEY` environment variable from OpenAI.
+
 Run `python setup.py install` to install open_dev.
 
 ## Install from Pip
