@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "open_dev"
-version = "0.1.7"
+version = "0.1.8"
 homepage = "https://github.com/8ball030/open_dev"
 description = "A collection of tooling to enable open source development.."
 authors = ["8Baller <8ball030@gmail.com>"]
