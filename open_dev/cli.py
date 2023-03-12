@@ -173,8 +173,6 @@ def commit(commit_type, msg):
     current_repo.commit(message)
 
 
-
-
 @click.group()
 def main():
     """Oh dev tooling to speed up development."""
