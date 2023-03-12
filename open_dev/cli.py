@@ -49,7 +49,7 @@ def summarize_changes(changes, is_title=False, is_commit=False):
 
     max_token = 200
 
-    stop = "****",
+    stop = ("****",)
     if is_title:
         text = f"{changes}\nWhat could be the title for the pull request?\n\nA:"
         max_token = 25
@@ -140,7 +140,10 @@ def pull(target_branch, title, description, dry_run):
 
 
 @click.command()
-@click.argument("commit_type", type=click.Choice(["feat", "fix", "docs", "style", "refactor", "perf", "test", "build", "ci", "chore", "revert"]))
+@click.argument(
+    "commit_type",
+    type=click.Choice(["feat", "fix", "docs", "style", "refactor", "perf", "test", "build", "ci", "chore", "revert"]),
+)
 @click.argument("msg", type=click.STRING, nargs=-1, default=None)
 def commit(commit_type, msg):
     """Check only check for changes since the last commit and commit them."""
@@ -181,10 +184,7 @@ def main():
 repo.add_command(info)
 repo.add_command(pull)
 
-for group in [
-    repo,
-    commit
-]:
+for group in [repo, commit]:
     main.add_command(group)
 
 
